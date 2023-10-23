@@ -573,6 +573,11 @@ local cpp_setup = {
 require'lspconfig'.clangd.setup(cpp_setup)
 require'lspconfig'.ocamllsp.setup{}
 -- Set tab size
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+-- relative
+vim.o.relativenumber = true
+
+--vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
