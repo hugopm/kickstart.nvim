@@ -594,3 +594,9 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 		vim.api.nvim_exec('silent! normal! g`"zv', false)
 	end,
 })
+
+-- set lustre syntax for .lus and .zls
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "BufReadPost" }, {
+	pattern = { "*.lus", "*.zls" },
+	command = "set syntax=lus",
+})
