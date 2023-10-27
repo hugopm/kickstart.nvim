@@ -586,3 +586,11 @@ local handle = io.popen("opam var share")
 vim.g.opamshare = handle:read("*a"):gsub('[\n\r]', '')
 vim.opt.rtp:append { vim.g.opamshare .. "/merlin/vim" }
 handle:close()
+
+-- Restore cursor position
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+	pattern = { "*" },
+	callback = function()
+		vim.api.nvim_exec('silent! normal! g`"zv', false)
+	end,
+})
