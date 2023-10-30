@@ -94,6 +94,10 @@ require('lazy').setup({
 	},
 
 	{
+		'mhartington/formatter.nvim'
+	},
+
+	{
 		-- Autocompletion
 		'hrsh7th/nvim-cmp',
 		dependencies = {
@@ -582,9 +586,35 @@ local cpp_setup = {
 }
 require 'lspconfig'.clangd.setup(cpp_setup)
 require 'lspconfig'.ocamllsp.setup {}
+require 'formatter'.setup {
+	-- Enable or disable logging
+	logging = true,
+	-- Set the log level
+	log_level = vim.log.levels.DEBUG,
+	filetype = {
+		cpp = {
+			function()
+				return {
+					exe = "clang-format",
+					args = {
+						"-assume-filename",
+						require("formatter.util").escape_path(require("formatter.util").get_current_buffer_file_name()),
+						"--style=\"{IndentWidth: 4}\""
+					},
+					stdin = true,
+					try_node_modules = true,
+				}
+			end
+		}
+	},
+	["*"] = {
+		-- "formatter.filetypes.any" defines default configurations for any
+		-- filetype
+		require("formatter.filetypes.any").remove_trailing_whitespace
+	}
+}
 
---vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePost * FormatWrite]]
 local handle = io.popen("opam var share")
 vim.g.opamshare = handle:read("*a"):gsub('[\n\r]', '')
 vim.opt.rtp:append { vim.g.opamshare .. "/merlin/vim" }
