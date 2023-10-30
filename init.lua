@@ -124,7 +124,8 @@ require('lazy').setup({
 				changedelete = { text = '~' },
 			},
 			on_attach = function(bufnr)
-				vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+				vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk,
+					{ buffer = bufnr, desc = 'Preview git hunk' })
 
 				-- don't override the built-in and fugitive keymaps
 				local gs = package.loaded.gitsigns
@@ -334,7 +335,8 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
 	require('nvim-treesitter.configs').setup {
 		-- Add languages to be installed here that you want installed for treesitter
-		ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
+		ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc',
+			'vim',
 			'bash' },
 		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 		auto_install = false,
@@ -564,6 +566,13 @@ cmp.setup {
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
+-- Set tab size
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+-- relative
+vim.o.relativenumber = true
+
 -- clangd
 local signature_setup = {}
 local cpp_setup = {
@@ -573,12 +582,6 @@ local cpp_setup = {
 }
 require 'lspconfig'.clangd.setup(cpp_setup)
 require 'lspconfig'.ocamllsp.setup {}
--- Set tab size
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
-vim.o.softtabstop = 2
--- relative
-vim.o.relativenumber = true
 
 --vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
