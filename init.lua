@@ -605,6 +605,9 @@ require 'formatter'.setup {
 					try_node_modules = true,
 				}
 			end
+		},
+		lua = {
+			require("formatter.filetypes.lua").stylua
 		}
 	},
 	["*"] = {
@@ -637,3 +640,6 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead", "BufReadPost" }, {
 	pattern = { "*.zls" },
 	command = "set syntax=zls",
 })
+
+vim.cmd [[ let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl' ]]
+vim.cmd [[ autocmd FileType netrw setlocal number ]]
