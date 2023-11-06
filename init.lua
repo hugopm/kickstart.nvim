@@ -580,7 +580,7 @@ function set_tab_size(pat, ts)
 end
 
 set_tab_size('cpp', 4)
-set_tab_size('lua,ocaml', 2)
+set_tab_size('zls,lua,ocaml', 2)
 
 -- relative
 vim.o.relativenumber = true
@@ -598,7 +598,7 @@ require('formatter').setup {
   -- Enable or disable logging
   logging = true,
   -- Set the log level
-  log_level = vim.log.levels.DEBUG,
+  log_level = vim.log.levels.WARN,
   filetype = {
     cpp = {
       function()
@@ -642,11 +642,11 @@ vim.api.nvim_create_autocmd({ 'BufReadPost' }, {
 -- set lustre syntax for .lus and .zls
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'BufReadPost' }, {
   pattern = { '*.lus' },
-  command = 'set syntax=lus',
+  command = 'set filetype=lus',
 })
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'BufReadPost' }, {
   pattern = { '*.zls' },
-  command = 'set syntax=zls',
+  command = 'set filetype=zls',
 })
 
 vim.cmd [[ let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl' ]]
