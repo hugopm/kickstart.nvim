@@ -568,9 +568,20 @@ cmp.setup {
 -- vim: ts=2 sts=2 sw=2 et
 
 -- Set tab size
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
+function set_tab_size(pat, ts)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = pat,
+    callback = function()
+      vim.o.tabstop = ts
+      vim.o.shiftwidth = ts
+      vim.o.softtabstop = ts
+    end,
+  })
+end
+
+set_tab_size('cpp', 4)
+set_tab_size('lua,ocaml', 2)
+
 -- relative
 vim.o.relativenumber = true
 
