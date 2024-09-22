@@ -65,6 +65,11 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    lazy = false, -- This plugin is already lazy
+  },
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
@@ -112,9 +117,6 @@ require('lazy').setup({
       'rafamadriz/friendly-snippets',
     },
   },
-
-  -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -156,10 +158,11 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'loctvl842/monokai-pro.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      require('monokai-pro').setup()
+      vim.cmd 'colorscheme monokai-pro-spectrum'
     end,
   },
 
@@ -233,6 +236,11 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = 'custom.plugins' },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    lazy = false, -- This plugin is already lazy
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -451,17 +459,6 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-}
-
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require('mason').setup()
@@ -594,6 +591,7 @@ local cpp_setup = {
 }
 require('lspconfig').clangd.setup(cpp_setup)
 require('lspconfig').ocamllsp.setup {}
+require('lspconfig').pyright.setup {}
 require('formatter').setup {
   -- Enable or disable logging
   logging = true,
@@ -651,3 +649,4 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead', 'BufReadPost' }, {
 
 vim.cmd [[ let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl' ]]
 vim.cmd [[ autocmd FileType netrw setlocal number ]]
+--vim.cmd [[ highlight Normal ctermbg=NONE guibg=NONE ]]
